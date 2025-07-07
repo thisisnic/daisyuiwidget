@@ -16,35 +16,18 @@ HTMLWidgets.widget({
   style.id = 'daisyui-timeline-css';
   style.textContent = `
     .timeline {
-      display: flex;
-      flex-direction: column;
-      padding-left: 2rem;
-      position: relative;
-      margin: 2rem 0;
+
     }
     .timeline::before {
-      content: '';
-      position: absolute;
-      left: 1rem;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background-color: #d1d5db; /* tailwind gray-300 */
+
     }
     .timeline li {
-      position: relative;
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 2rem;
+
     }
     .timeline-start {
-      font-size: 0.875rem;
-      color: #6b7280; /* tailwind gray-500 */
-      min-width: 6rem;
-      margin-right: 1rem;
+
     }
     .timeline-middle {
-      position: absolute;
       left: 0.75rem;
       width: 0.75rem;
       height: 0.75rem;
@@ -55,15 +38,13 @@ HTMLWidgets.widget({
       top: 0.25rem;
     }
     .timeline-end {
-      flex: 1;
+
     }
     .timeline-box {
-      background-color: white;
-      padding: 1rem;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-      font-size: 0.95rem;
+
+    }
+    .timeline-hr {
+      border-top: 1px solid #000000;
     }
   `;
   document.head.appendChild(style);
@@ -72,8 +53,8 @@ HTMLWidgets.widget({
 
   // Build HTML
   const ul = document.createElement("ul");
-  ul.className = "timeline";
-  x.events.forEach(event => {
+  ul.className = "timeline timeline-vertical lg:timeline-horizontal";
+  x.events.forEach((event, index) => {
     const li = document.createElement("li");
     const start = document.createElement("div");
     start.className = "timeline-start";
@@ -87,11 +68,23 @@ HTMLWidgets.widget({
     const box = document.createElement("div");
     box.className = "timeline-box";
     box.textContent = event.content;
+    
+    const hrStart = document.createElement("hr");
+    hrStart.className = "timeline-hr";
+    
+    
+    const hrEnd = document.createElement("hr");
 
     end.appendChild(box);
+    if (index > 0) {
+     li.appendChild(hrStart); 
+    }
     li.appendChild(start);
     li.appendChild(middle);
     li.appendChild(end);
+    if (index < x.events.length - 1) { // Check if it's the first AND not the last
+    li.appendChild(hrEnd);
+    }
     ul.appendChild(li);
   });
 
