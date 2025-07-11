@@ -1,0 +1,136 @@
+---
+title: "daisyChains"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{daisyChains}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Work without htmlwidget
+
+```{=html}
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+```
+
+Here's a minified responsive timeline taken from https://daisyui.com/components/timeline/?lang=en#responsive-vertical-by-default-horizontal-on-large-screen
+
+```{=html}
+<ul class="timeline timeline-vertical lg:timeline-horizontal">
+  <li>
+    <div class="timeline-start">1984</div>
+    <div class="timeline-middle">
+    </div>
+    <div class="timeline-end timeline-box">First Macintosh computer</div>
+    <hr />
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">1998</div>
+    <div class="timeline-middle">
+    </div>
+    <div class="timeline-end timeline-box">iMac</div>
+    <hr />
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">2001</div>
+    <div class="timeline-middle">
+    </div>
+    <div class="timeline-end timeline-box">iPod</div>
+    <hr />
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">2007</div>
+    <div class="timeline-middle">
+    </div>
+    <div class="timeline-end timeline-box">iPhone</div>
+    <hr />
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">2015</div>
+    <div class="timeline-middle">
+    </div>
+    <div class="timeline-end timeline-box">Apple Watch</div>
+  </li>
+</ul>
+```
+
+## Pulled out styles
+
+```{verbatim}
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      padding-left: 2rem;
+      position: relative;
+      margin: 2rem 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 1rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: #d1d5db; /* tailwind gray-300 */
+    }
+    .timeline li {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .timeline-start {
+      font-size: 0.875rem;
+      color: #6b7280; /* tailwind gray-500 */
+      min-width: 6rem;
+      margin-right: 1rem;
+    }
+    .timeline-middle {
+      position: absolute;
+      left: 0.75rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      background-color: #2563eb; /* tailwind blue-600 */
+      border-radius: 9999px;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px #2563eb;
+      top: 0.25rem;
+    }
+    .timeline-end {
+      flex: 1;
+    }
+    .timeline-box {
+      background-color: white;
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      font-size: 0.95rem;
+    }
+```
+
+
+# Work as widget
+
+```{r setup}
+library(daisyuiwidget1)
+
+daisyTimeline(list(
+      list(date = "2022", content = "Planning phase"),
+      list(date = "2023", content = "Development started"),
+      list(date = "2024", content = "Launch 🚀"),
+      list(date = "2025", content = "IPO 🚀")
+    ))
+```

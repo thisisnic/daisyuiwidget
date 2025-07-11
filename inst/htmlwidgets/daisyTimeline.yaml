@@ -1,2 +1,10 @@
 name: daisyTimeline
 version: 1.0.0
+dependencies:
+  - name: daisyui
+    version: 1.0.3
+    src: htmlwidgets/lib/daisyui
+    stylesheet:
+      - daisyui@5.css
+    script: 
+      - browser@4.js
