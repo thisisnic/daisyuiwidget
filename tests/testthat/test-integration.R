@@ -22,8 +22,7 @@ test_that("daisyTimeline end-to-end functionality", {
   events <- data.frame(
     date = c("2022", "2023", "2024"),
     content = c("Planning", "Development", "Launch"),
-    side = c("left", "right", "left"),
-    stringsAsFactors = FALSE
+    side = c("left", "right", "left")
   )
   
   result <- daisyTimeline(events, width = "100%", elementId = "test")

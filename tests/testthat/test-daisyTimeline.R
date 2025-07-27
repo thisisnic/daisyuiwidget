@@ -1,8 +1,7 @@
 test_that("daisyTimeline creates htmlwidget with data frame", {
   events <- data.frame(
     date = c("2022", "2023"),
-    content = c("Event 1", "Event 2"),
-    stringsAsFactors = FALSE
+    content = c("Event 1", "Event 2")
   )
   
   result <- daisyTimeline(events)
@@ -14,8 +13,7 @@ test_that("daisyTimeline creates htmlwidget with data frame", {
 test_that("daisyTimeline converts data frame to correct structure", {
   events <- data.frame(
     date = c("2022", "2023", "2024"),
-    content = c("Event 1", "Event 2", "Event 3"),
-    stringsAsFactors = FALSE
+    content = c("Event 1", "Event 2", "Event 3")
   )
   
   result <- daisyTimeline(events)
@@ -27,8 +25,7 @@ test_that("daisyTimeline converts data frame to correct structure", {
 test_that("daisyTimeline preserves date and content values", {
   events <- data.frame(
     date = c("2022", "2023"),
-    content = c("Planning", "Launch"),
-    stringsAsFactors = FALSE
+    content = c("Planning", "Launch")
   )
   
   result <- daisyTimeline(events)
@@ -43,8 +40,7 @@ test_that("daisyTimeline handles side column when present", {
   events <- data.frame(
     date = c("2022", "2023"),
     content = c("Event 1", "Event 2"),
-    side = c("left", "right"),
-    stringsAsFactors = FALSE
+    side = c("left", "right")
   )
   
   result <- daisyTimeline(events)
@@ -80,8 +76,7 @@ test_that("daisyTimeline converts factor content to character", {
 test_that("daisyTimeline handles NA values", {
   events <- data.frame(
     date = c("2022", NA),
-    content = c(NA, "Event 2"),
-    stringsAsFactors = FALSE
+    content = c(NA, "Event 2")
   )
   
   result <- daisyTimeline(events)
@@ -93,8 +88,7 @@ test_that("daisyTimeline handles NA values", {
 test_that("daisyTimeline works with empty data frame", {
   events <- data.frame(
     date = character(0),
-    content = character(0),
-    stringsAsFactors = FALSE
+    content = character(0)
   )
   
   result <- daisyTimeline(events)
@@ -105,8 +99,7 @@ test_that("daisyTimeline works with empty data frame", {
 test_that("daisyTimeline works with single row", {
   events <- data.frame(
     date = "2022",
-    content = "Single Event",
-    stringsAsFactors = FALSE
+    content = "Single Event"
   )
   
   result <- daisyTimeline(events)
@@ -118,8 +111,7 @@ test_that("daisyTimeline works with single row", {
 test_that("daisyTimeline preserves widget parameters", {
   events <- data.frame(
     date = "2022",
-    content = "Event",
-    stringsAsFactors = FALSE
+    content = "Event"
   )
   
   result <- daisyTimeline(events, width = "100%", height = "400px", elementId = "test")
@@ -138,19 +130,19 @@ test_that("daisyTimeline rejects non-data frame input", {
 })
 
 test_that("daisyTimeline requires date column", {
-  events <- data.frame(content = "Event", stringsAsFactors = FALSE)
+  events <- data.frame(content = "Event")
   
   expect_error(daisyTimeline(events), "Data frame must contain 'date' and 'content' columns")
 })
 
 test_that("daisyTimeline requires content column", {
-  events <- data.frame(date = "2022", stringsAsFactors = FALSE)
+  events <- data.frame(date = "2022")
   
   expect_error(daisyTimeline(events), "Data frame must contain 'date' and 'content' columns")
 })
 
 test_that("daisyTimeline requires both date and content columns", {
-  events <- data.frame(year = "2022", description = "Event", stringsAsFactors = FALSE)
+  events <- data.frame(year = "2022", description = "Event")
   
   expect_error(daisyTimeline(events), "Data frame must contain 'date' and 'content' columns")
 })

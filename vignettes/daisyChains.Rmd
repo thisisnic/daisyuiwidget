@@ -130,8 +130,7 @@ library(daisyuiwidget)
 # Create timeline using data frame
 events_df <- data.frame(
   date = c("2022", "2023", "2024", "2025"),
-  content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀"),
-  stringsAsFactors = FALSE
+  content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀")
 )
 
 daisyTimeline(events_df)

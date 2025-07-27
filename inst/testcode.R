@@ -14,7 +14,6 @@ server <- function(input, output) {
     events_df <- data.frame(
       date = c("2022", "2023", "2024", "2025"),
       content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀"),
-      stringsAsFactors = FALSE
     )
     
     daisyTimeline(events_df)
