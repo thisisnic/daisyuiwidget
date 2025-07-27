@@ -11,36 +11,35 @@
 #'
 #' @export
 daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL) {
+  # Validate input is a data frame
+  if (!is.data.frame(events)) {
+    stop("events must be a data frame")
+  }
+  
+  # Check required columns
+  if (!all(c("date", "content") %in% names(events))) {
+    stop("Data frame must contain 'date' and 'content' columns")
+  }
+  
   # Convert data frame to list of lists for JavaScript consumption
-  if (is.data.frame(events)) {
-    # Check required columns
-    if (!all(c("date", "content") %in% names(events))) {
-      stop("Data frame must contain 'date' and 'content' columns")
+  events_list <- lapply(seq_len(nrow(events)), function(i) {
+    # Handle NA values by converting them to "NA" strings
+    date_val <- events$date[i]
+    content_val <- events$content[i]
+    
+    event <- list(
+      date = ifelse(is.na(date_val), "NA", as.character(date_val)),
+      content = ifelse(is.na(content_val), "NA", as.character(content_val))
+    )
+    
+    # Add side column if it exists
+    if ("side" %in% names(events)) {
+      side_val <- events$side[i]
+      event$side <- ifelse(is.na(side_val), "NA", as.character(side_val))
     }
     
-    # Convert data frame to list of lists
-    events_list <- lapply(seq_len(nrow(events)), function(i) {
-      # Handle NA values by converting them to "NA" strings
-      date_val <- events$date[i]
-      content_val <- events$content[i]
-      
-      event <- list(
-        date = ifelse(is.na(date_val), "NA", as.character(date_val)),
-        content = ifelse(is.na(content_val), "NA", as.character(content_val))
-      )
-      
-      # Add side column if it exists
-      if ("side" %in% names(events)) {
-        side_val <- events$side[i]
-        event$side <- ifelse(is.na(side_val), "NA", as.character(side_val))
-      }
-      
-      return(event)
-    })
-  } else {
-    # Backward compatibility: if events is already a list, use it as is
-    events_list <- events
-  }
+    return(event)
+  })
   
   htmlwidgets::createWidget(
     name = "daisyTimeline",

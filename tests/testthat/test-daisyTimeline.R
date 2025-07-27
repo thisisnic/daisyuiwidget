@@ -44,25 +44,34 @@ test_that("daisyTimeline works with data frame including side column", {
   expect_equal(result$x$events[[2]]$side, "right")
 })
 
-test_that("daisyTimeline works with list input (backward compatibility)", {
-  # Create test data as list of lists
+test_that("daisyTimeline rejects non-data frame input", {
+  # Test with list input
   events_list <- list(
     list(date = "2022", content = "Event 1"),
     list(date = "2023", content = "Event 2"),
     list(date = "2024", content = "Event 3")
   )
   
-  result <- daisyTimeline(events_list)
+  expect_error(
+    daisyTimeline(events_list),
+    "events must be a data frame"
+  )
   
-  # Check that result is an htmlwidget
-  expect_s3_class(result, "htmlwidget")
-  expect_s3_class(result, "daisyTimeline")
+  # Test with other invalid inputs
+  expect_error(
+    daisyTimeline("not a data frame"),
+    "events must be a data frame"
+  )
   
-  # Check that the data structure is preserved
-  expect_type(result$x$events, "list")
-  expect_length(result$x$events, 3)
-  expect_equal(result$x$events[[1]]$date, "2022")
-  expect_equal(result$x$events[[1]]$content, "Event 1")
+  expect_error(
+    daisyTimeline(c("2022", "2023")),
+    "events must be a data frame"
+  )
+  
+  expect_error(
+    daisyTimeline(NULL),
+    "events must be a data frame"
+  )
 })
 
 test_that("daisyTimeline handles type conversion properly", {

@@ -22,9 +22,9 @@ tests/
 ### Main Function Tests (`test-daisyTimeline.R`)
 - ✅ Data frame input handling
 - ✅ Data frame with optional `side` column
-- ✅ Backward compatibility with list input
-- ✅ Type conversion (numeric dates, factor content)
+- ✅ Input validation (non-data frame input rejection)
 - ✅ Input validation (missing required columns)
+- ✅ Type conversion (numeric dates, factor content)
 - ✅ Edge cases (empty data frame, single row)
 - ✅ Widget parameter preservation
 - ✅ NA value handling
@@ -38,11 +38,10 @@ tests/
 ### Integration Tests (`test-integration.R`)
 - ✅ Helper function validation
 - ✅ End-to-end workflow testing
-- ✅ Data frame vs list equivalence verification
+- ✅ Different data frame sizes
 
 ### Helper Functions (`helper.R`)
 - `create_sample_events_df()` - Creates test data frames
-- `create_sample_events_list()` - Creates test data as list format
 - `expect_valid_htmlwidget()` - Validates htmlwidget structure
 - `expect_valid_event()` - Validates individual event structure
 
@@ -66,7 +65,7 @@ test_dir("tests/testthat")
 
 ## Test Results
 All tests are currently passing:
-- **104 tests pass** ✅
+- **102 tests pass** ✅
 - **0 tests fail** ✅
 - **0 warnings**
 - **0 skipped**
@@ -87,10 +86,9 @@ A GitHub Actions workflow (`.github/workflows/R-CMD-check.yaml`) is included for
 
 The tests follow these principles:
 1. **Comprehensive coverage** - Test both happy path and edge cases
-2. **Backward compatibility** - Ensure existing list-based usage still works
-3. **Input validation** - Verify proper error handling for invalid inputs
-4. **Type safety** - Test various input types and their conversion
-5. **Integration testing** - Verify the widget works end-to-end
+2. **Input validation** - Verify proper error handling for invalid inputs
+3. **Type safety** - Test various input types and their conversion
+4. **Integration testing** - Verify the widget works end-to-end
 
 ## Adding New Tests
 

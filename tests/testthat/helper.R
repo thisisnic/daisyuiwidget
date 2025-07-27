@@ -8,15 +8,6 @@ create_sample_events_df <- function(n = 3) {
   )
 }
 
-create_sample_events_list <- function(n = 3) {
-  lapply(1:n, function(i) {
-    list(
-      date = paste0("202", 1+i),
-      content = paste("Event", i)
-    )
-  })
-}
-
 expect_valid_htmlwidget <- function(widget) {
   expect_s3_class(widget, "htmlwidget")
   expect_s3_class(widget, "daisyTimeline")
