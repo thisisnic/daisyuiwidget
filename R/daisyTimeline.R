@@ -15,12 +15,12 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
   if (!is.data.frame(events)) {
     stop("events must be a data frame")
   }
-  
+
   # Check required columns
   if (!all(c("date", "content") %in% names(events))) {
     stop("Data frame must contain 'date' and 'content' columns")
   }
-  
+
   # Convert data frame to list of lists for JavaScript consumption
   # Handle empty data frame case
   if (nrow(events) == 0) {
@@ -42,7 +42,7 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
       events_list <- lapply(events_list, as.list)
     }
   }
-  
+
   htmlwidgets::createWidget(
     name = "daisyTimeline",
     x = list(events = events_list),
@@ -58,7 +58,6 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
       )
     )
   )
-
 }
 
 
@@ -81,13 +80,15 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
 #' @name daisyTimeline-shiny
 #'
 #' @export
-daisyTimelineOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'daisyTimeline', width, height, package = 'daisyuiwidget')
+daisyTimelineOutput <- function(outputId, width = "100%", height = "400px") {
+  htmlwidgets::shinyWidgetOutput(outputId, "daisyTimeline", width, height, package = "daisyuiwidget")
 }
 
 #' @rdname daisyTimeline-shiny
 #' @export
 renderDaisyTimeline <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
+  if (!quoted) {
+    expr <- substitute(expr)
+  } # force quoted
   htmlwidgets::shinyRenderWidget(expr, daisyTimelineOutput, env, quoted = TRUE)
 }
