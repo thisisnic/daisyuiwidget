@@ -1,47 +1,48 @@
-test_that("helper functions work correctly", {
-  # Test create_sample_events_df
-  sample_df <- create_sample_events_df(2)
-  expect_s3_class(sample_df, "data.frame")
-  expect_equal(nrow(sample_df), 2)
-  expect_equal(colnames(sample_df), c("date", "content"))
-  expect_equal(sample_df$date, c("2022", "2023"))
-  expect_equal(sample_df$content, c("Event 1", "Event 2"))
+test_that("daisyTimeline handles different data frame sizes", {
+  # Single row
+  single <- data.frame(date = "2022", content = "Event")
+  result_single <- daisyTimeline(single)
+  expect_length(result_single$x$events, 1)
   
-  # Test expect_valid_htmlwidget helper
-  widget <- daisyTimeline(sample_df)
-  expect_valid_htmlwidget(widget)
+  # Multiple rows
+  multiple <- data.frame(
+    date = c("2022", "2023", "2024", "2025"),
+    content = c("A", "B", "C", "D")
+  )
+  result_multiple <- daisyTimeline(multiple)
+  expect_length(result_multiple$x$events, 4)
   
-  # Test expect_valid_event helper
-  event <- list(date = "2022", content = "Test Event")
-  expect_valid_event(event, "2022", "Test Event")
+  # Empty
+  empty <- data.frame(date = character(0), content = character(0))
+  result_empty <- daisyTimeline(empty)
+  expect_length(result_empty$x$events, 0)
 })
 
-test_that("comprehensive integration test using helpers", {
-  # Test with data frame
-  events_df <- create_sample_events_df(4)
-  widget_df <- daisyTimeline(events_df)
+test_that("daisyTimeline end-to-end functionality", {
+  events <- data.frame(
+    date = c("2022", "2023", "2024"),
+    content = c("Planning", "Development", "Launch"),
+    side = c("left", "right", "left"),
+    stringsAsFactors = FALSE
+  )
   
-  expect_valid_htmlwidget(widget_df)
-  expect_length(widget_df$x$events, 4)
+  result <- daisyTimeline(events, width = "100%", elementId = "test")
   
-  # Validate each event
-  for (i in 1:4) {
-    expect_valid_event(
-      widget_df$x$events[[i]], 
-      expected_date = paste0("202", 1+i),
-      expected_content = paste("Event", i)
-    )
-  }
+  # Widget structure
+  expect_s3_class(result, c("daisyTimeline", "htmlwidget"))
+  expect_equal(result$width, "100%")
+  expect_equal(result$elementId, "test")
   
-  # Test with different data frame sizes
-  small_df <- create_sample_events_df(1)
-  large_df <- create_sample_events_df(10)
+  # Data structure
+  expect_length(result$x$events, 3)
   
-  small_widget <- daisyTimeline(small_df)
-  large_widget <- daisyTimeline(large_df)
+  # First event
+  expect_equal(result$x$events[[1]]$date, "2022")
+  expect_equal(result$x$events[[1]]$content, "Planning")
+  expect_equal(result$x$events[[1]]$side, "left")
   
-  expect_valid_htmlwidget(small_widget)
-  expect_valid_htmlwidget(large_widget)
-  expect_length(small_widget$x$events, 1)
-  expect_length(large_widget$x$events, 10)
+  # Last event
+  expect_equal(result$x$events[[3]]$date, "2024")
+  expect_equal(result$x$events[[3]]$content, "Launch")
+  expect_equal(result$x$events[[3]]$side, "left")
 })
