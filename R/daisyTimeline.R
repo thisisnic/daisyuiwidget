@@ -22,24 +22,21 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
   }
   
   # Convert data frame to list of lists for JavaScript consumption
-  events_list <- lapply(seq_len(nrow(events)), function(i) {
-    # Handle NA values by converting them to "NA" strings
-    date_val <- events$date[i]
-    content_val <- events$content[i]
-    
-    event <- list(
-      date = ifelse(is.na(date_val), "NA", as.character(date_val)),
-      content = ifelse(is.na(content_val), "NA", as.character(content_val))
-    )
-    
-    # Add side column if it exists
-    if ("side" %in% names(events)) {
-      side_val <- events$side[i]
-      event$side <- ifelse(is.na(side_val), "NA", as.character(side_val))
-    }
-    
-    return(event)
-  })
+  # Vectorized conversion to list of lists
+  df <- events
+  df$date <- as.character(df$date)
+  df$content <- as.character(df$content)
+  df$date[is.na(df$date)] <- "NA"
+  df$content[is.na(df$content)] <- "NA"
+  if ("side" %in% names(df)) {
+    df$side <- as.character(df$side)
+    df$side[is.na(df$side)] <- "NA"
+    events_list <- unname(split(df, seq(nrow(df))))
+    events_list <- lapply(events_list, as.list)
+  } else {
+    events_list <- unname(split(df[, c("date", "content")], seq(nrow(df))))
+    events_list <- lapply(events_list, as.list)
+  }
   
   htmlwidgets::createWidget(
     name = "daisyTimeline",
