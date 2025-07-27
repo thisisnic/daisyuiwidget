@@ -127,6 +127,21 @@ Here's a minified responsive timeline taken from https://daisyui.com/components/
 ```{r setup}
 library(daisyuiwidget1)
 
+# Using data frame format (recommended)
+events_df <- data.frame(
+  date = c("2022", "2023", "2024", "2025"),
+  content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀"),
+  stringsAsFactors = FALSE
+)
+
+daisyTimeline(events_df)
+```
+
+## Alternative: List format (backward compatibility)
+
+The function still accepts the original list format for backward compatibility:
+
+```{r list_format}
 daisyTimeline(list(
       list(date = "2022", content = "Planning phase"),
       list(date = "2023", content = "Development started"),
