@@ -6,6 +6,15 @@
 \usage{
 daisyTimeline(events, width = NULL, height = NULL, elementId = NULL)
 }
+\arguments{
+\item{events}{A data frame with columns 'date' and 'content', and optionally 'side'}
+
+\item{width}{Width of the widget}
+
+\item{height}{Height of the widget}
+
+\item{elementId}{HTML element ID}
+}
 \description{
 Create a Daisy Timeline
 }

@@ -20,14 +20,19 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
     
     # Convert data frame to list of lists
     events_list <- lapply(seq_len(nrow(events)), function(i) {
+      # Handle NA values by converting them to "NA" strings
+      date_val <- events$date[i]
+      content_val <- events$content[i]
+      
       event <- list(
-        date = as.character(events$date[i]),
-        content = as.character(events$content[i])
+        date = ifelse(is.na(date_val), "NA", as.character(date_val)),
+        content = ifelse(is.na(content_val), "NA", as.character(content_val))
       )
       
       # Add side column if it exists
       if ("side" %in% names(events)) {
-        event$side <- as.character(events$side[i])
+        side_val <- events$side[i]
+        event$side <- ifelse(is.na(side_val), "NA", as.character(side_val))
       }
       
       return(event)
