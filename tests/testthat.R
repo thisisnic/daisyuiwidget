@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(daisyuiwidget1)
+library(daisyuiwidget)
 
-test_check("daisyuiwidget1")
+test_check("daisyuiwidget")

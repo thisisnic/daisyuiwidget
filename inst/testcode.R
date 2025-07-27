@@ -1,5 +1,5 @@
 library(shiny)
-library(daisyuiwidget1)
+library(daisyuiwidget)
 
 ui <- fluidPage(
   "hr underneath me",

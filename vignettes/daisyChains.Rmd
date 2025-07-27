@@ -125,7 +125,7 @@ Here's a minified responsive timeline taken from https://daisyui.com/components/
 # Work as widget
 
 ```{r setup}
-library(daisyuiwidget1)
+library(daisyuiwidget)
 
 # Create timeline using data frame
 events_df <- data.frame(

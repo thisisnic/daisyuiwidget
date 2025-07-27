@@ -48,14 +48,13 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
     x = list(events = events_list),
     width = width,
     height = height,
-    package = "daisyuiwidget1",
+    package = "daisyuiwidget",
     elementId = elementId,
     dependencies = list(
       htmltools::htmlDependency(
         name = "tailwind-daisy",
         version = "1.0.0",
-        src = system.file("htmlwidgets/lib", package = "daisyuiwidget1")#,
-        #stylesheet = "tailwind-daisy.min.css"
+        src = system.file("htmlwidgets/lib", package = "daisyuiwidget"),
       )
     )
   )
@@ -83,7 +82,7 @@ daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL)
 #'
 #' @export
 daisyTimelineOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'daisyTimeline', width, height, package = 'daisyuiwidget1')
+  htmlwidgets::shinyWidgetOutput(outputId, 'daisyTimeline', width, height, package = 'daisyuiwidget')
 }
 
 #' @rdname daisyTimeline-shiny
