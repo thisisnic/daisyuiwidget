@@ -1,4 +1,4 @@
-# daisyuiwidget1
+# daisyuiwidget
 
 An experimental R htmlwidget for rendering timeline components inspired by [daisyUI](https://daisyui.com/components/timeline). 
 Built with the goal of testing out LLMs' ability to create this package.
@@ -18,13 +18,13 @@ This is not yet available on CRAN. You can install it from source:
 
 ```r
 # assuming you have the repo locally
-devtools::install("path/to/daisyuiwidget1")
+devtools::install("path/to/daisyuiwidget")
 ```
 
 ## Usage
 
 ```
-library(daisyuiwidget1)
+library(daisyuiwidget)
 
 daisyTimeline(list(
   list(date = "2022", content = "Planning"),

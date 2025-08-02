@@ -125,12 +125,13 @@ Here's a minified responsive timeline taken from https://daisyui.com/components/
 # Work as widget
 
 ```{r setup}
-library(daisyuiwidget1)
+library(daisyuiwidget)
 
-daisyTimeline(list(
-      list(date = "2022", content = "Planning phase"),
-      list(date = "2023", content = "Development started"),
-      list(date = "2024", content = "Launch 🚀"),
-      list(date = "2025", content = "IPO 🚀")
-    ))
+# Create timeline using data frame
+events_df <- data.frame(
+  date = c("2022", "2023", "2024", "2025"),
+  content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀")
+)
+
+daisyTimeline(events_df)
 ```
