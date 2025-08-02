@@ -6,6 +6,7 @@ ui <- fluidPage(
   hr(),
   "timeline underneath me",
   daisyTimelineOutput("timeline"),
+  verbatimTextOutput("clicked_index")
 )
 
 server <- function(input, output) {
@@ -17,6 +18,14 @@ server <- function(input, output) {
     )
     
     daisyTimeline(events_df)
+  })
+  
+  observeEvent(input$timeline_selected, {
+    print(input$timeline_selected)
+  })
+  
+  output$clicked_index <- renderPrint({
+    input$timeline_selected
   })
 }
 
