@@ -49,18 +49,6 @@ test_that("daisyTimeline handles side column when present", {
   expect_equal(result$x$events[[2]]$side, "right")
 })
 
-test_that("daisyTimeline converts numeric dates to character", {
-  events <- data.frame(
-    date = c(2022, 2023),
-    content = c("Event 1", "Event 2")
-  )
-
-  result <- daisyTimeline(events)
-
-  expect_type(result$x$events[[1]]$date, "character")
-  expect_equal(result$x$events[[1]]$date, "2022")
-})
-
 test_that("daisyTimeline converts factor content to character", {
   events <- data.frame(
     date = c("2022", "2023"),
@@ -71,18 +59,6 @@ test_that("daisyTimeline converts factor content to character", {
 
   expect_type(result$x$events[[1]]$content, "character")
   expect_equal(result$x$events[[1]]$content, "Event 1")
-})
-
-test_that("daisyTimeline handles NA values", {
-  events <- data.frame(
-    date = c("2022", NA),
-    content = c(NA, "Event 2")
-  )
-
-  result <- daisyTimeline(events)
-
-  expect_equal(result$x$events[[1]]$content, "NA")
-  expect_equal(result$x$events[[2]]$date, "NA")
 })
 
 test_that("daisyTimeline works with empty data frame", {
@@ -124,9 +100,9 @@ test_that("daisyTimeline preserves widget parameters", {
 test_that("daisyTimeline rejects non-data frame input", {
   events_list <- list(list(date = "2022", content = "Event"))
 
-  expect_error(daisyTimeline(events_list), "events must be a data frame")
-  expect_error(daisyTimeline("not a data frame"), "events must be a data frame")
-  expect_error(daisyTimeline(NULL), "events must be a data frame")
+  expect_error(daisyTimeline(events_list), "`data` must be a data frame")
+  expect_error(daisyTimeline("not a data frame"), "`data` must be a data frame")
+  expect_error(daisyTimeline(NULL), "`data` must be a data frame")
 })
 
 test_that("daisyTimeline requires date column", {
@@ -146,3 +122,4 @@ test_that("daisyTimeline requires both date and content columns", {
 
   expect_error(daisyTimeline(events), "Data frame must contain 'date' and 'content' columns")
 })
+

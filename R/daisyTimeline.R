@@ -2,47 +2,32 @@
 #'
 #' Create a Daisy Timeline
 #'
-#' @param events A data frame with columns 'date' and 'content', and optionally 'side'
+#' @param data A data frame
 #' @param width Width of the widget
 #' @param height Height of the widget
 #' @param elementId HTML element ID
 #'
 #' @import htmlwidgets
+#' @importFrom purrr list_transpose
+#' @importFrom purrr map_if
 #'
 #' @export
-daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL) {
+daisyTimeline <- function(data, width = NULL, height = NULL, elementId = NULL) {
   # Validate input is a data frame
-  if (!is.data.frame(events)) {
-    stop("events must be a data frame")
+  if (!is.data.frame(data)) {
+    stop("`data` must be a data frame")
   }
-
+  
   # Check required columns
-  if (!all(c("date", "content") %in% names(events))) {
+  if (!all(c("date", "content") %in% names(data))) {
     stop("Data frame must contain 'date' and 'content' columns")
   }
-
-  # Convert data frame to list of lists for JavaScript consumption
-  # Handle empty data frame case
-  if (nrow(events) == 0) {
-    events_list <- list()
-  } else {
-    # Vectorized conversion to list of lists
-    df <- events
-    df$date <- as.character(df$date)
-    df$content <- as.character(df$content)
-    df$date[is.na(df$date)] <- "NA"
-    df$content[is.na(df$content)] <- "NA"
-    if ("side" %in% names(df)) {
-      df$side <- as.character(df$side)
-      df$side[is.na(df$side)] <- "NA"
-      events_list <- unname(split(df, seq_len(nrow(df))))
-      events_list <- lapply(events_list, as.list)
-    } else {
-      events_list <- unname(split(df[, c("date", "content")], seq_len(nrow(df))))
-      events_list <- lapply(events_list, as.list)
-    }
-  }
-
+  
+  # Convert factor columns to character and tranpose
+  events_list <- data |>
+    map_if(is.factor, as.character) |>
+    list_transpose(simplify = FALSE)
+  
   htmlwidgets::createWidget(
     name = "daisyTimeline",
     x = list(events = events_list),
