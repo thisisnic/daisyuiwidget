@@ -100,9 +100,9 @@ test_that("daisyTimeline preserves widget parameters", {
 test_that("daisyTimeline rejects non-data frame input", {
   events_list <- list(list(date = "2022", content = "Event"))
 
-  expect_error(daisyTimeline(events_list), "events must be a data frame")
-  expect_error(daisyTimeline("not a data frame"), "events must be a data frame")
-  expect_error(daisyTimeline(NULL), "events must be a data frame")
+  expect_error(daisyTimeline(events_list), "`data` must be a data frame")
+  expect_error(daisyTimeline("not a data frame"), "`data` must be a data frame")
+  expect_error(daisyTimeline(NULL), "`data` must be a data frame")
 })
 
 test_that("daisyTimeline requires date column", {

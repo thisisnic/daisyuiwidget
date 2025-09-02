@@ -2,32 +2,33 @@
 #'
 #' Create a Daisy Timeline
 #'
-#' @param events A data frame with columns 'date' and 'content', and optionally 'side'
+#' @param data A data frame with columns 'date' and 'content', and optionally 'side'
 #' @param width Width of the widget
 #' @param height Height of the widget
 #' @param elementId HTML element ID
 #'
 #' @import htmlwidgets
-#' @importFrom purrr list_transpose, map_if
+#' @importFrom purrr list_transpose
+#' @importFrom purrr map_if
 #'
 #' @export
-daisyTimeline <- function(events, width = NULL, height = NULL, elementId = NULL) {
+daisyTimeline <- function(data, width = NULL, height = NULL, elementId = NULL) {
   # Validate input is a data frame
-  if (!is.data.frame(events)) {
-    stop("events must be a data frame")
+  if (!is.data.frame(data)) {
+    stop("`data` must be a data frame")
   }
-
+  
   # Check required columns
-  if (!all(c("date", "content") %in% names(events))) {
+  if (!all(c("date", "content") %in% names(data))) {
     stop("Data frame must contain 'date' and 'content' columns")
   }
-
+  
   # Convert factor columns to character and tranpose
-  events_list <- events |>
+  events_list <- data |>
     map_if(is.factor, as.character) |>
     list_transpose(simplify = FALSE)
-
-
+  
+  
   htmlwidgets::createWidget(
     name = "daisyTimeline",
     x = list(events = events_list),
