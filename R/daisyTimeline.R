@@ -3,8 +3,6 @@
 #' Create a Daisy Timeline
 #'
 #' @param data A data frame
-#' @param date Column containing date information
-#' @param event Column containing event labels
 #' @param width Width of the widget
 #' @param height Height of the widget
 #' @param elementId HTML element ID
@@ -14,7 +12,7 @@
 #' @importFrom purrr map_if
 #'
 #' @export
-daisyTimeline <- function(data, date, event, width = NULL, height = NULL, elementId = NULL) {
+daisyTimeline <- function(data, width = NULL, height = NULL, elementId = NULL) {
   # Validate input is a data frame
   if (!is.data.frame(data)) {
     stop("`data` must be a data frame")
