@@ -4,32 +4,15 @@
 \alias{daisyTimeline}
 \title{Daisy Timeline}
 \usage{
-<<<<<<< HEAD
-daisyTimeline(data, width = NULL, height = NULL, elementId = NULL)
-=======
-daisyTimeline(
-  data,
-  date,
-  title = NULL,
-  event = NULL,
-  width = NULL,
-  height = NULL,
-  elementId = NULL
-)
->>>>>>> 2016831 (Add changes for tilde notation update)
+daisyTimeline(data, date, title, width = NULL, height = NULL, elementId = NULL)
 }
 \arguments{
 \item{data}{A data frame}
 
-<<<<<<< HEAD
-=======
 \item{date}{Column containing date information (can be a formula)}
 
 \item{title}{Column containing event labels (can be a formula)}
 
-\item{event}{Column containing event labels (deprecated, use title)}
-
->>>>>>> 2016831 (Add changes for tilde notation update)
 \item{width}{Width of the widget}
 
 \item{height}{Height of the widget}

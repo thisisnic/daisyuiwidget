@@ -5,7 +5,6 @@
 #' @param data A data frame
 #' @param date Column containing date information (can be a formula)
 #' @param title Column containing event labels (can be a formula)
-#' @param event Column containing event labels (deprecated, use title)
 #' @param width Width of the widget
 #' @param height Height of the widget
 #' @param elementId HTML element ID
@@ -31,23 +30,12 @@
 #' daisyTimeline(events_simple, date = date, title = content)
 #'
 #' @import htmlwidgets
-#' @importFrom purrr list_transpose
-#' @importFrom purrr map_if
 #'
 #' @export
-daisyTimeline <- function(data, date, title = NULL, event = NULL, width = NULL, height = NULL, elementId = NULL) {
+daisyTimeline <- function(data, date, title, width = NULL, height = NULL, elementId = NULL) {
   # Validate input is a data frame
   if (!is.data.frame(data)) {
     stop("`data` must be a data frame")
-  }
-  
-  # Handle backward compatibility - use title if provided, otherwise event
-  if (!missing(title)) {
-    event_param <- title
-  } else if (!missing(event)) {
-    event_param <- event
-  } else {
-    stop("Either 'title' or 'event' parameter must be provided")
   }
   
   # Extract date column
@@ -57,11 +45,11 @@ daisyTimeline <- function(data, date, title = NULL, event = NULL, width = NULL, 
     date_values <- data[[deparse(substitute(date))]]
   }
   
-  # Extract event/title column
-  if (inherits(event_param, "formula")) {
-    content_values <- eval(event_param[[2]], envir = data)
+  # Extract title column
+  if (inherits(title, "formula")) {
+    content_values <- eval(title[[2]], envir = data)
   } else {
-    content_values <- data[[deparse(substitute(event_param))]]
+    content_values <- data[[deparse(substitute(title))]]
   }
   
   # Create processed data frame

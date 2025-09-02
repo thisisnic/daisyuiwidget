@@ -123,13 +123,6 @@ test_that("daisyTimeline works with direct column names", {
   expect_equal(widget$x$events[[1]]$content, "Release 1")
 })
 
-test_that("daisyTimeline validates input", {
-  expect_error(daisyTimeline("not a data frame"), "`data` must be a data frame")
-  
-  data <- data.frame(x = 1, y = 2)
-  expect_error(daisyTimeline(data, date = ~x), "Either 'title' or 'event' parameter must be provided")
-})
-
 test_that("daisyTimeline handles factors correctly", {
   data <- data.frame(
     date = factor(c("2022", "2023")),
@@ -140,18 +133,6 @@ test_that("daisyTimeline handles factors correctly", {
   
   expect_type(widget$x$events[[1]]$date, "character")
   expect_type(widget$x$events[[1]]$content, "character")
-})
-
-test_that("daisyTimeline backward compatibility with event parameter", {
-  data <- data.frame(
-    date = c("2022", "2023"),
-    event = c("Event 1", "Event 2")
-  )
-  
-  widget <- daisyTimeline(data, date = ~date, event = ~event)
-  
-  expect_s3_class(widget, "htmlwidget")
-  expect_equal(widget$x$events[[1]]$content, "Event 1")
 })
 
 test_that("daisyTimeline handles complex formula expressions", {
