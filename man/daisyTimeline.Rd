@@ -4,10 +4,14 @@
 \alias{daisyTimeline}
 \title{Daisy Timeline}
 \usage{
-daisyTimeline(data, width = NULL, height = NULL, elementId = NULL)
+daisyTimeline(data, date, event, width = NULL, height = NULL, elementId = NULL)
 }
 \arguments{
-\item{data}{A data frame with columns 'date' and 'content', and optionally 'side'}
+\item{data}{A data frame}
+
+\item{date}{Column containing date information}
+
+\item{event}{Column containing event labels}
 
 \item{width}{Width of the widget}
 
