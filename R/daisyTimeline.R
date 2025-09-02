@@ -3,30 +3,79 @@
 #' Create a Daisy Timeline
 #'
 #' @param data A data frame
+#' @param date Column containing date information (can be a formula)
+#' @param title Column containing event labels (can be a formula)
+#' @param event Column containing event labels (deprecated, use title)
 #' @param width Width of the widget
 #' @param height Height of the widget
 #' @param elementId HTML element ID
+#'
+#' @examples
+#' # Create sample data
+#' events_data <- data.frame(
+#'   release_date = as.Date(c("2022-01-01", "2023-01-01")),
+#'   package_name = c("dplyr", "ggplot2"),
+#'   event = c("Major release", "Bug fixes")
+#' )
+#'
+#' # Create timeline with formula-style column references
+#' daisyTimeline(events_data,
+#'               date = ~format(as.Date(release_date), "%Y"),
+#'               title = ~event)
+#'
+#' # Using direct column names (backward compatibility)
+#' events_simple <- data.frame(
+#'   date = c("2022", "2023"),
+#'   content = c("Release 1", "Release 2")
+#' )
+#' daisyTimeline(events_simple, date = date, title = content)
 #'
 #' @import htmlwidgets
 #' @importFrom purrr list_transpose
 #' @importFrom purrr map_if
 #'
 #' @export
-daisyTimeline <- function(data, width = NULL, height = NULL, elementId = NULL) {
+daisyTimeline <- function(data, date, title = NULL, event = NULL, width = NULL, height = NULL, elementId = NULL) {
   # Validate input is a data frame
   if (!is.data.frame(data)) {
     stop("`data` must be a data frame")
   }
   
-  # Check required columns
-  if (!all(c("date", "content") %in% names(data))) {
-    stop("Data frame must contain 'date' and 'content' columns")
+  # Handle backward compatibility - use title if provided, otherwise event
+  if (!missing(title)) {
+    event_param <- title
+  } else if (!missing(event)) {
+    event_param <- event
+  } else {
+    stop("Either 'title' or 'event' parameter must be provided")
   }
   
-  # Convert factor columns to character and tranpose
-  events_list <- data |>
-    map_if(is.factor, as.character) |>
-    list_transpose(simplify = FALSE)
+  # Extract date column
+  if (inherits(date, "formula")) {
+    date_values <- eval(date[[2]], envir = data)
+  } else {
+    date_values <- data[[deparse(substitute(date))]]
+  }
+  
+  # Extract event/title column
+  if (inherits(event_param, "formula")) {
+    content_values <- eval(event_param[[2]], envir = data)
+  } else {
+    content_values <- data[[deparse(substitute(event_param))]]
+  }
+  
+  # Create processed data frame
+  processed_data <- data.frame(
+    date = date_values,
+    content = content_values,
+    stringsAsFactors = FALSE
+  )
+  
+  # Convert factor columns to character and transpose
+  events_list <- lapply(seq_len(nrow(processed_data)), function(i) {
+    row_data <- processed_data[i, ]
+    lapply(row_data, function(x) if (is.factor(x)) as.character(x) else x)
+  })
   
   htmlwidgets::createWidget(
     name = "daisyTimeline",
