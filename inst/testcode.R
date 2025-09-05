@@ -17,7 +17,7 @@ server <- function(input, output) {
       content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀")
     )
     
-    daisyTimeline(events_df)
+    daisyTimeline(events_df, ~date, ~content)
   })
   
   observeEvent(input$timeline_selected, {
