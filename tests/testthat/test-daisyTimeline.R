@@ -117,3 +117,57 @@ test_that("daisyTimeline supports direct column references", {
   expect_equal(result$x$events[[1]]$content, "Planning")
 })
 
+test_that("daisyTimeline handles HTML content", {
+  events <- data.frame(
+    year = c("2022", "2023"),
+    name = c("Project Start", "Launch"),
+    url = c("https://example.com/start", "https://example.com/launch")
+  )
+
+  result <- daisyTimeline(events, 
+                         date = year, 
+                         title = htmltools::HTML(paste0('<a href="', url, '">', name, '</a>')))
+
+  expect_true(result$x$hasHTML)
+  expect_equal(result$x$events[[1]]$date, "2022")
+  expect_equal(result$x$events[[1]]$content, '<a href="https://example.com/start">Project Start</a>')
+})
+
+test_that("daisyTimeline detects HTML content correctly", {
+  # Plain text content
+  events_plain <- data.frame(
+    year = c("2022", "2023"),
+    description = c("Event 1", "Event 2")
+  )
+  
+  result_plain <- daisyTimeline(events_plain, date = year, title = description)
+  expect_false(result_plain$x$hasHTML %||% FALSE)
+  
+  # HTML content
+  events_html <- data.frame(
+    year = c("2022", "2023"),
+    description = c("Event 1", "Event 2")
+  )
+  
+  result_html <- daisyTimeline(events_html, 
+                              date = year, 
+                              title = htmltools::HTML(paste0('<a href="#">', description, '</a>')))
+  expect_true(result_html$x$hasHTML)
+})
+
+test_that("daisyTimeline works with shiny::HTML", {
+  skip_if_not_installed("shiny")
+  
+  events <- data.frame(
+    year = c("2022", "2023"),
+    name = c("Start", "End")
+  )
+
+  result <- daisyTimeline(events, 
+                         date = year, 
+                         title = shiny::HTML(paste0('<strong>', name, '</strong>')))
+
+  expect_true(result$x$hasHTML)
+  expect_equal(result$x$events[[1]]$content, '<strong>Start</strong>')
+})
+
