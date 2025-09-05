@@ -16,18 +16,14 @@
 #'   package_name = c("dplyr", "ggplot2"),
 #'   event = c("Major release", "Bug fixes")
 #' )
+#' 
+#'# Using simple column names 
+#' daisyTimeline(events_simple, date = ~date, title = ~content)
 #'
 #' # Create timeline with formula-style column references
 #' daisyTimeline(events_data,
 #'               date = ~format(as.Date(release_date), "%Y"),
 #'               title = ~event)
-#'
-#' # Using direct column names (backward compatibility)
-#' events_simple <- data.frame(
-#'   date = c("2022", "2023"),
-#'   content = c("Release 1", "Release 2")
-#' )
-#' daisyTimeline(events_simple, date = date, title = content)
 #'
 #' @import htmlwidgets
 #'
