@@ -31,7 +31,7 @@ events_data <- data.frame(
 )
 
 # Using simple column names 
-daisyTimeline(events_simple, date = ~date, title = ~content)
+daisyTimeline(events_data, date = ~date, title = ~content)
 
 # Create timeline with formula-style column references
 daisyTimeline(events_data,
