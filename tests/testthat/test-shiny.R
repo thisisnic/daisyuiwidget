@@ -12,10 +12,10 @@ test_that("daisyTimelineOutput accepts custom dimensions", {
 })
 
 test_that("renderDaisyTimeline returns render function", {
-  events <- data.frame(date = "2022", content = "Event")
+  events <- data.frame(year = "2022", description = "Event")
 
   render_func <- renderDaisyTimeline({
-    daisyTimeline(events)
+    daisyTimeline(events, date = year, title = description)
   })
 
   expect_s3_class(render_func, "shiny.render.function")

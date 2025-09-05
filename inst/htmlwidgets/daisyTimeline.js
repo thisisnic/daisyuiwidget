@@ -46,6 +46,14 @@ HTMLWidgets.widget({
           .timeline-hr {
             border-top: 1px solid #000000;
           }
+          .timeline-box a {
+            color: inherit;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+          .timeline-box a:hover {
+            color: #2563eb;
+          }
         `;
         document.head.appendChild(style);
       }
@@ -67,13 +75,22 @@ HTMLWidgets.widget({
           end.className = "timeline-end";
           const box = document.createElement("div");
           box.className = "timeline-box";
-          box.textContent = event.content;
           
-          box.onclick = function() {
-            if (HTMLWidgets.shinyMode && Shiny.setInputValue) {
-              Shiny.setInputValue(el.id + "_selected", index);
-            }
-          };
+          // Handle HTML content vs plain text
+          if (x.hasHTML) {
+            box.innerHTML = event.content;
+          } else {
+            box.textContent = event.content;
+          }
+          
+          // Add click handler for Shiny integration (only if not HTML content with links)
+          if (!x.hasHTML) {
+            box.onclick = function() {
+              if (HTMLWidgets.shinyMode && Shiny.setInputValue) {
+                Shiny.setInputValue(el.id + "_selected", index);
+              }
+            };
+          }
           
           
           const hrStart = document.createElement("hr");
