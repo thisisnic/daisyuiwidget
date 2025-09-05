@@ -13,7 +13,8 @@ RoxygenNote: 7.3.2
 Imports:
     htmlwidgets,
     htmltools,
-    purrr (>= 1.0.0)
+    purrr (>= 1.0.0),
+    rlang
 Suggests: 
     knitr,
     rmarkdown,
