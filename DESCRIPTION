@@ -15,6 +15,7 @@ Imports:
     htmltools
 Suggests: 
     testthat (>= 3.0.0),
-    shiny
+    shiny,
+    knitr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
