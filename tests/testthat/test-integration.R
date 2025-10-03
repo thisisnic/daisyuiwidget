@@ -6,7 +6,7 @@ test_that("daisyTimeline handles different data frame sizes", {
 
   # Multiple rows
   multiple <- data.frame(
-    date = c("2022", "2023", "2024", "2025"),
+    date = c("2014", "2015", "2018", "2020", "2025"),
     content = c("A", "B", "C", "D")
   )
   result_multiple <- daisyTimeline(multiple)
