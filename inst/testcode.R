@@ -11,10 +11,11 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$timeline <- renderDaisyTimeline({
     daisyTimeline(list(
-      list(date = "2022", content = "Planning phase"),
-      list(date = "2023", content = "Development started"),
-      list(date = "2024", content = "Launch 🚀"),
-      list(date = "2025", content = "IPO 🚀")
+      list(date = "2014", content = "htmlwidgets released"),
+      list(date = "2015", content = "plotly switches to htmwidgets"),
+      list(date = "2018", content = "htmlwidgets get async functionality"),
+      list(date = "2020", content = "htmlwidgets get bindCache support"),
+      list(date = "2025", content = "htmlwidgets get a hex sticker")
     ))
   })
 }
