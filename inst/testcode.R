@@ -13,9 +13,9 @@ server <- function(input, output) {
   output$timeline <- renderDaisyTimeline({
     # Using new tidy eval format with expressions
     events_df <- data.frame(
-      year = c(2022, 2023, 2024, 2025),
-      phase = c("Planning", "Development", "Launch", "IPO"),
-      emoji = c("📋", "💻", "🚀", "💰")
+      year = c(2014, 2015, 2018, 2020, 2025),
+      phase = c("Released", "plotly", "async", "bindCache", "hexsticker"),
+      emoji = c("🚀", "📊", "⌛️", "📌", "⬢")
     )
     
     # Demonstrate expressions in tidy eval
