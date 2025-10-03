@@ -4,10 +4,14 @@
 \alias{daisyTimeline}
 \title{Daisy Timeline}
 \usage{
-daisyTimeline(data, width = NULL, height = NULL, elementId = NULL)
+daisyTimeline(data, date, title, width = NULL, height = NULL, elementId = NULL)
 }
 \arguments{
 \item{data}{A data frame}
+
+\item{date}{Column containing date information (can be a formula)}
+
+\item{title}{Column containing event labels (can be a formula)}
 
 \item{width}{Width of the widget}
 
@@ -17,4 +21,21 @@ daisyTimeline(data, width = NULL, height = NULL, elementId = NULL)
 }
 \description{
 Create a Daisy Timeline
+}
+\examples{
+# Create sample data
+events_data <- data.frame(
+  release_date = c("2022-01-01", "2023-01-01"),
+  package_name = c("dplyr", "ggplot2"),
+  event = c("Major release", "Bug fixes")
+)
+
+# Using simple column names 
+daisyTimeline(events_data, date = ~release_date, title = ~package_name)
+
+# Create timeline with formula-style column references
+daisyTimeline(events_data,
+              date = ~format(as.Date(release_date), "\%Y"),
+              title = ~paste(package_name, "-", event))
+
 }
