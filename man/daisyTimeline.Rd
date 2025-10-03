@@ -4,10 +4,21 @@
 \alias{daisyTimeline}
 \title{Daisy Timeline}
 \usage{
-daisyTimeline(data, width = NULL, height = NULL, elementId = NULL)
+daisyTimeline(
+  data,
+  date = NULL,
+  title = NULL,
+  width = NULL,
+  height = NULL,
+  elementId = NULL
+)
 }
 \arguments{
 \item{data}{A data frame}
+
+\item{date}{Column or expression for dates (supports expressions like lubridate::year(date_col))}
+
+\item{title}{Column or expression for titles/content}
 
 \item{width}{Width of the widget}
 
@@ -17,4 +28,46 @@ daisyTimeline(data, width = NULL, height = NULL, elementId = NULL)
 }
 \description{
 Create a Daisy Timeline
+}
+\examples{
+# Basic usage with column names
+events_df <- data.frame(
+  year = c("2022", "2023", "2024"),
+  description = c("Planning", "Development", "Launch")
+)
+daisyTimeline(events_df, date = year, title = description)
+
+# Using expressions for date formatting
+events_df2 <- data.frame(
+  event_year = c(2022, 2023, 2024),
+  event_name = c("Start", "Progress", "Finish")
+)
+daisyTimeline(events_df2, 
+              date = as.character(event_year), 
+              title = paste0("Phase: ", event_name))
+
+# With lubridate expressions (if available)
+\dontrun{
+library(lubridate)
+events_df3 <- data.frame(
+  full_date = as.Date(c("2022-01-15", "2023-06-20", "2024-12-01")),
+  milestone = c("Kickoff", "Beta", "Release")
+)
+daisyTimeline(events_df3,
+              date = year(full_date),
+              title = paste0(milestone, " (", month(full_date, label = TRUE), ")"))
+}
+
+# Complex expressions
+sales_data <- data.frame(
+  quarter = c("Q1", "Q2", "Q3", "Q4"),
+  revenue = c(100, 150, 200, 250),
+  target = c(120, 140, 180, 240)
+)
+daisyTimeline(sales_data,
+              date = paste0("2024 ", quarter),
+              title = ifelse(revenue >= target, 
+                            paste0("✅ $", revenue, "k (met target)"),
+                            paste0("❌ $", revenue, "k (missed target)")))
+
 }

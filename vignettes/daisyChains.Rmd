@@ -129,9 +129,10 @@ library(daisyuiwidget)
 
 # Create timeline using data frame
 events_df <- data.frame(
-  date = c("2022", "2023", "2024", "2025"),
-  content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀")
+  date = c("2014", "2015", "2018", "2020", "2025"),
+  content = c("htmlwidgets released", "plotly switches to htmwidgets", "htmlwidgets get async functionality", "htmlwidgets get bindCache support", "htmlwidgets get a hex sticker")
 )
 
-daisyTimeline(events_df)
+# Use explicit column references with tidy eval
+daisyTimeline(events_df, date = date, title = content)
 ```
