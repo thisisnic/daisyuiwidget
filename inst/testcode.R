@@ -11,19 +11,25 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output$timeline <- renderDaisyTimeline({
-    # Using data frame format
+    # Using new tidy eval format with expressions
     events_df <- data.frame(
-      date = c("2022", "2023", "2024", "2025"),
-      content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀")
+      year = c("2014", "2015", "2018", "2020", "2025"),
+      phase = c("Released", "plotly", "async", "bindCache", "hexsticker"),
+      emoji = c("🚀", "📊", "⌛️", "📌", "⬢")
     )
     
-    daisyTimeline(events_df)
+    # Demonstrate expressions in tidy eval
+    daisyTimeline(
+      events_df, 
+      date = as.character(year),
+      title = paste0(phase, " ", emoji)
+    )
   })
   
   observeEvent(input$timeline_selected, {
     print(input$timeline_selected)
   })
-  
+  ⬢
   output$clicked_index <- renderPrint({
     input$timeline_selected
   })

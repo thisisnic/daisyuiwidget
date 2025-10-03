@@ -133,5 +133,6 @@ events_df <- data.frame(
   content = c("Planning phase", "Development started", "Launch 🚀", "IPO 🚀")
 )
 
-daisyTimeline(events_df)
+# Use explicit column references with tidy eval
+daisyTimeline(events_df, date = date, title = content)
 ```
